@@ -154,6 +154,12 @@ a:hover { color: var(--accent-hover); }
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+.help-text {
+    margin: 0.35rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
 .form-field textarea {
     min-height: 6rem;
     font-family: inherit;
@@ -203,6 +209,51 @@ a:hover { color: var(--accent-hover); }
 .btn-link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
+}
+
+.search-form {
+    display: flex;
+    align-items: end;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.search-form .search-field {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.schedule-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.schedule-form input[type=datetime-local] {
+    max-width: 12.5rem;
+    padding: 0.35rem 0.45rem;
+    font-size: 0.84rem;
+}
+
+.status {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.12rem 0.45rem;
+}
+
+.status-live {
+    color: var(--success-text);
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+}
+
+.status-waiting {
+    color: var(--warn-text);
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
 }
 
 .back-link {
