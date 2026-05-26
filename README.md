@@ -2,6 +2,18 @@
 
 A small document-sharing app. You'll be extending it with features that customers have been asking for.
 
+## Submission notes
+
+This branch implements all three requested features:
+
+- Scheduled publishing: staff can set when a document becomes available, and recipient links show a not-yet-available message before that time.
+- Human-readable document IDs: documents get short readable IDs for staff/admin context and share URLs, while private share tokens still control recipient access.
+- Share by name: staff can search document titles before creating a share link.
+
+Schema changes are in `migrations/`, shared document behavior lives in `lib/documents.php`, and feature coverage is in `tests/test.php`.
+
+For AI-process transparency, see `ASSIGNMENT_PLAN.md` for the plan, prompt/process log, verification log, and walkthrough outline. See `AGENTS.md` for the lightweight repo-specific agent conventions used during the work.
+
 ## Setup
 
 Requires Docker (with Compose). That's it — PHP, SQLite, and everything else ship inside the container.
