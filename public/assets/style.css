@@ -112,6 +112,18 @@ a:hover { color: var(--accent-hover); }
     font-size: 0.95rem;
 }
 
+.page-actions {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.page-actions .page-subtitle {
+    margin-bottom: 0;
+}
+
 .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -356,6 +368,38 @@ table.data td.id {
     display: inline-flex;
     align-items: center;
     min-height: 2rem;
+}
+
+.action-group {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.85rem;
+}
+
+.detail-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+
+.detail-list div {
+    min-width: 0;
+}
+
+.detail-list dt {
+    color: var(--text-muted);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.detail-list dd {
+    margin: 0;
+    font-size: 0.94rem;
 }
 
 .meta {
