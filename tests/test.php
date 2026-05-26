@@ -65,6 +65,18 @@ test('documents get a short readable id that can resolve the document', function
     assert_same($docId, (int) $byReadableId['id'], 'expected readable id lookup to resolve the same document');
 });
 
+test('document public identifiers fall back to numeric ids when readable ids are missing', function () {
+    $docId = create_document('Legacy Packet', 'Legacy body', 1, storage_datetime(app_now()));
+    $stmt = db()->prepare('UPDATE documents SET readable_id = NULL WHERE id = ?');
+    $stmt->execute([$docId]);
+
+    $doc = document_by_identifier((string) $docId);
+
+    assert_true($doc !== null, 'expected legacy document to exist');
+    assert_same((string) $docId, document_public_identifier($doc), 'expected numeric id fallback');
+    assert_true(document_identifier_matches($doc, (string) $docId), 'expected numeric id fallback to match');
+});
+
 test('scheduled documents are hidden until their publish time', function () {
     $future = storage_datetime(app_now()->modify('+1 day'));
     $docId = create_document('Embargoed Plan', 'Secret until tomorrow', 1, $future);

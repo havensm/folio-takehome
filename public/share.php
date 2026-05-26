@@ -45,7 +45,7 @@ render_header('Share · ' . $doc['title'], $staff);
 <?php if ($created_token): ?>
     <div class="banner banner-success">
         Share link ready:
-        <code>http://<?= h($_SERVER['HTTP_HOST']) ?>/view.php?id=<?= h(urlencode($doc['readable_id'] ?? (string) $doc['id'])) ?>&amp;token=<?= h($created_token) ?></code>
+        <code>http://<?= h($_SERVER['HTTP_HOST']) ?>/view.php?id=<?= h(urlencode(document_public_identifier($doc))) ?>&amp;token=<?= h($created_token) ?></code>
     </div>
 <?php endif ?>
 
