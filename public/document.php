@@ -18,6 +18,17 @@ if (!$doc) {
     exit;
 }
 
+if (!document_review_token_valid($doc, $_GET['review_token'] ?? '')) {
+    http_response_code(403);
+    render_header('Review link required', $staff);
+    ?>
+    <div class="banner banner-error">A valid staff review link is required to view this document.</div>
+    <p><a href="/admin.php" class="back-link">← back to admin</a></p>
+    <?php
+    render_footer();
+    exit;
+}
+
 render_header('Review · ' . $doc['title'], $staff);
 ?>
 

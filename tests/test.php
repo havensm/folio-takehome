@@ -131,5 +131,16 @@ test('documents can be resolved by readable id for staff review', function () {
     assert_same('Reviewable Document', $reviewDoc['title'], 'expected review lookup to find the document');
 });
 
+test('staff review tokens are required for document review access', function () {
+    $docId = create_document('Restricted Review', 'Review body', 1, storage_datetime(app_now()));
+    $doc = document_by_identifier((string) $docId);
+
+    assert_true($doc !== null, 'expected document to exist');
+    assert_true(strlen($doc['staff_review_token']) === 32, 'expected generated staff review token');
+    assert_true(document_review_token_valid($doc, $doc['staff_review_token']), 'expected matching token to be valid');
+    assert_true(!document_review_token_valid($doc, ''), 'expected blank token to be invalid');
+    assert_true(!document_review_token_valid($doc, random_token()), 'expected wrong token to be invalid');
+});
+
 echo "\n{$pass} passed, {$fail} failed.\n";
 exit($fail > 0 ? 1 : 0);
