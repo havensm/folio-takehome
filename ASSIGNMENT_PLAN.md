@@ -4,13 +4,17 @@ This file tracks the take-home plan, decisions, prompts, AI workflow, verificati
 
 ## Upfront Decisions
 
-Answer these before final polish and submission:
+Resolved decisions:
 
-1. Submission scope: ship all three implemented features, or intentionally present one as partial if you want the story to be more conservative?
-2. Public repo destination: fork `getstreamline/folio-takehome`, create a fresh public repo, or push this branch to an existing repo?
-3. Walkthrough video tool: Loom, unlisted YouTube, Google Drive link sharing, or another public link?
-4. AI transparency level: include only a short process summary in the video, or also share this plan/process file in the repo?
-5. Final polish budget: keep the current small-scope implementation, or spend extra time on edge cases such as editing document bodies, better schedule validation, or richer search?
+1. Submission scope: ship all three requested features.
+2. Public repo destination: `https://github.com/havensm/folio-takehome.git`.
+3. AI transparency level: share the full process, from asking AI to pull the assignment email through implementation and verification.
+4. Final polish budget: keep the implementation scoped, but make the scoped version bug-free and clearly call out future improvements.
+
+Open before submission:
+
+1. Walkthrough video tool: Loom, unlisted YouTube, Google Drive link sharing, or another public link?
+2. Final email wording and exact links.
 
 ## Recommended Decisions
 
@@ -65,18 +69,19 @@ Status: complete
 
 ### Phase 5: Final Polish
 
-Status: pending decisions
+Status: in progress
 
 - Review UI copy for clarity and timezone expectations.
 - Review diff for accidental overreach.
-- Decide whether to commit this planning file.
-- Optionally add a short README note if you want reviewers to see the design decisions without watching the full video first.
+- Keep this planning file committed for transparency.
+- Use independent review passes to look for scoped-version bugs before publishing.
+- Optionally add a short README note if reviewers should see the design decisions without watching the full video first.
 
 ### Phase 6: Publish and Submit
 
-Status: pending
+Status: pending final verification
 
-- Push branch or public repo.
+- Push implementation branch to `havensm/folio-takehome`.
 - Record walkthrough video.
 - Verify public repo can be cloned without auth.
 - Verify video is accessible without auth.
@@ -92,7 +97,9 @@ Use this section to summarize the prompts and how AI was used. Keep it concise e
 | 2 | Inspect the linked repo and README. | Cloned repo, read files, mapped app flow. | Chose to understand existing PHP/SQLite structure before coding. | Implementation plan formed around small helpers and existing page controllers. |
 | 3 | Implement scoped take-home features. | Added migration runner, document helpers, UI flows, and recipient gating. | Chose to keep readable IDs separate from access control because readable IDs are guessable. | All three requested features implemented. |
 | 4 | Verify behavior. | Ran Docker tests, PHP lint, and browser QA. | Caught timezone ambiguity during browser QA and added explicit timezone copy. | Tests passed and main user flow verified. |
-| 5 | Plan completion and track process. | Created this file with phases, decisions, prompts, and submission checklist. | Pending owner decisions on repo destination, video tool, and final polish scope. | Ready for final polish and submission planning. |
+| 5 | Plan completion and track process. | Created this file with phases, decisions, prompts, and submission checklist. | Decided to share the process file publicly as part of full transparency. | Process log became a committed repo artifact. |
+| 6 | Initialize the public repo. | Suggested repo name/description and pushed a small initialization commit. | Chose `havensm/folio-takehome` as the public destination. | Public repo initialized with the baseline and process plan. |
+| 7 | Complete implementation in segments and use sub-agents as needed. | Applied implementation in reviewable segments and planned independent review/QA passes. | Kept scope tight: all three features, no broad product expansion. | Implementation branch prepared for verification and publication. |
 
 ## Verification Log
 
@@ -136,9 +143,9 @@ Latest known passing checks:
 
 ## Submission Checklist
 
-- [ ] Upfront decisions answered.
+- [x] Upfront decisions answered.
 - [ ] Final diff reviewed.
-- [ ] Planning/process file either committed or intentionally left out.
+- [x] Planning/process file included for transparency.
 - [ ] Public repo/branch pushed.
 - [ ] Video recorded and link-sharing verified.
 - [ ] Email reply drafted with repo and video links.
