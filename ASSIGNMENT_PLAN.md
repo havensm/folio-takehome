@@ -80,7 +80,7 @@ Status: complete
 
 ### Phase 6: Publish and Submit
 
-Status: pending branch push and video
+Status: pending video and email reply
 
 - Push implementation branch to `havensm/folio-takehome`.
 - Record walkthrough video.
@@ -146,8 +146,8 @@ Latest known passing checks:
 ## Submission Checklist
 
 - [x] Upfront decisions answered.
-- [ ] Final diff reviewed.
+- [x] Final diff reviewed.
 - [x] Planning/process file included for transparency.
-- [ ] Public repo/branch pushed.
+- [x] Public repo/branch pushed.
 - [ ] Video recorded and link-sharing verified.
 - [ ] Email reply drafted with repo and video links.
