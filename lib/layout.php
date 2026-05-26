@@ -32,6 +32,18 @@ function render_header(string $title, ?array $staff = null): void {
 function render_footer(): void {
     ?>
 </main>
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div>
+            <strong>Folio</strong>
+            <span>Document sharing for CivicPlus teams.</span>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+            <a href="/about.php">About</a>
+            <a href="/admin.php">Admin</a>
+        </nav>
+    </div>
+</footer>
 </body>
 </html>
     <?php
