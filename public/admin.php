@@ -118,7 +118,8 @@ render_header('Admin', $staff);
     <?php if (empty($docs)): ?>
         <p class="empty"><?= $search === '' ? 'No documents yet.' : 'No matching documents.' ?></p>
     <?php else: ?>
-        <table class="data">
+        <div class="table-wrap">
+        <table class="data documents-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -126,7 +127,7 @@ render_header('Admin', $staff);
                     <th>Available</th>
                     <th>Creator</th>
                     <th>Created</th>
-                    <th></th>
+                    <th class="actions-heading">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -154,11 +155,14 @@ render_header('Admin', $staff);
                         </td>
                         <td><?= h($d['creator_name']) ?></td>
                         <td><?= h($d['created_at']) ?></td>
-                        <td><a href="/share.php?doc=<?= urlencode($d['readable_id'] ?? (string) $d['id']) ?>" class="btn-link">Create share -></a></td>
+                        <td class="actions-cell">
+                            <a href="/share.php?doc=<?= urlencode($d['readable_id'] ?? (string) $d['id']) ?>" class="btn-link action-link">Create share</a>
+                        </td>
                     </tr>
                 <?php endforeach ?>
             </tbody>
         </table>
+        </div>
     <?php endif ?>
 </section>
 
