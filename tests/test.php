@@ -90,5 +90,27 @@ test('document search finds share candidates by title substring', function () {
     assert_true(!in_array('Benefits Guide', $titles, true), 'did not expect unrelated title in search results');
 });
 
+test('document search treats wildcard characters literally', function () {
+    create_document('Literal Percent % Guide', 'Percent body', 1, storage_datetime(app_now()));
+    create_document('Plain Guide', 'Plain body', 1, storage_datetime(app_now()));
+
+    $results = search_documents('%');
+    $titles = array_column($results, 'title');
+
+    assert_true(in_array('Literal Percent % Guide', $titles, true), 'expected title containing a literal percent sign');
+    assert_true(!in_array('Plain Guide', $titles, true), 'wildcard search should not match every title');
+});
+
+test('invalid schedule dates are rejected instead of normalized', function () {
+    try {
+        parse_publish_input('2026-02-31T10:00');
+    } catch (InvalidArgumentException $e) {
+        assert_true(true);
+        return;
+    }
+
+    throw new RuntimeException('expected invalid date to be rejected');
+});
+
 echo "\n{$pass} passed, {$fail} failed.\n";
 exit($fail > 0 ? 1 : 0);

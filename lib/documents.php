@@ -21,8 +21,13 @@ function parse_publish_input(?string $value): string {
         $value,
         new DateTimeZone(date_default_timezone_get())
     );
+    $errors = DateTimeImmutable::getLastErrors();
 
-    if (!$date) {
+    if (
+        !$date
+        || ($errors !== false && ($errors['warning_count'] > 0 || $errors['error_count'] > 0))
+        || $date->format('Y-m-d\TH:i') !== $value
+    ) {
         throw new InvalidArgumentException('Publish date must be a valid date and time.');
     }
 
@@ -139,12 +144,20 @@ function search_documents(?string $query = null): array {
         SELECT d.*, s.name AS creator_name
         FROM documents d
         JOIN staff s ON s.id = d.created_by
-        WHERE d.title LIKE ? COLLATE NOCASE
+        WHERE lower(d.title) LIKE lower(?) ESCAPE ?
         ORDER BY d.created_at DESC
     ');
-    $stmt->execute(['%' . $query . '%']);
+    $stmt->execute(['%' . escape_like($query) . '%', '\\']);
 
     return $stmt->fetchAll();
+}
+
+function escape_like(string $value): string {
+    return str_replace(
+        ['\\', '%', '_'],
+        ['\\\\', '\\%', '\\_'],
+        $value
+    );
 }
 
 function update_document_schedule(int $documentId, string $publishedAt): void {

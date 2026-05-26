@@ -33,7 +33,7 @@ Status: complete
 - Read the assignment email and README.
 - Identify hard requirements: migrations, tests per feature, audit logging, fresh-clone Docker flow.
 - Identify ambiguous decisions: readable ID format, URL structure, token interaction, search behavior, scheduling semantics.
-- Set working branch: `takehome-features`.
+- Set working branch: `complete-assignment`.
 
 ### Phase 2: Codebase Recon
 
@@ -69,17 +69,18 @@ Status: complete
 
 ### Phase 5: Final Polish
 
-Status: in progress
+Status: complete
 
 - Review UI copy for clarity and timezone expectations.
 - Review diff for accidental overreach.
 - Keep this planning file committed for transparency.
 - Use independent review passes to look for scoped-version bugs before publishing.
-- Optionally add a short README note if reviewers should see the design decisions without watching the full video first.
+- Add a short README submission note so reviewers can see the design decisions without watching the full video first.
+- Fix scoped review findings around migration backfill, invalid date handling, and literal title search.
 
 ### Phase 6: Publish and Submit
 
-Status: pending final verification
+Status: pending branch push and video
 
 - Push implementation branch to `havensm/folio-takehome`.
 - Record walkthrough video.
@@ -93,22 +94,23 @@ Use this section to summarize the prompts and how AI was used. Keep it concise e
 
 | Step | Prompt / Request Summary | AI Role | Human Judgment / Pushback | Outcome |
 | --- | --- | --- | --- | --- |
-| 1 | Find the job email that says "do this." | Searched Gmail, identified the assignment, summarized deliverables. | Confirmed the relevant email was the CivicPlus take-home, not unrelated messages. | Assignment repo and requirements identified. |
+| 1 | Find the job email that says "do this." | Used the user-requested Gmail connector to identify the assignment and summarize deliverables. | Confirmed the relevant email was the CivicPlus take-home, not unrelated messages. | Assignment repo and requirements identified. |
 | 2 | Inspect the linked repo and README. | Cloned repo, read files, mapped app flow. | Chose to understand existing PHP/SQLite structure before coding. | Implementation plan formed around small helpers and existing page controllers. |
 | 3 | Implement scoped take-home features. | Added migration runner, document helpers, UI flows, and recipient gating. | Chose to keep readable IDs separate from access control because readable IDs are guessable. | All three requested features implemented. |
 | 4 | Verify behavior. | Ran Docker tests, PHP lint, and browser QA. | Caught timezone ambiguity during browser QA and added explicit timezone copy. | Tests passed and main user flow verified. |
 | 5 | Plan completion and track process. | Created this file with phases, decisions, prompts, and submission checklist. | Decided to share the process file publicly as part of full transparency. | Process log became a committed repo artifact. |
 | 6 | Initialize the public repo. | Suggested repo name/description and pushed a small initialization commit. | Chose `havensm/folio-takehome` as the public destination. | Public repo initialized with the baseline and process plan. |
-| 7 | Complete implementation in segments and use sub-agents as needed. | Applied implementation in reviewable segments and planned independent review/QA passes. | Kept scope tight: all three features, no broad product expansion. | Implementation branch prepared for verification and publication. |
+| 7 | Complete implementation in segments and use sub-agents as needed. | Applied implementation in reviewable segments and spawned independent code/process review agents. | Kept scope tight: all three features, no broad product expansion. | Review findings were used to harden scoped behavior and docs. |
 
 ## Verification Log
 
 Latest known passing checks:
 
-- `docker compose run --rm app php tests/test.php` -> 4 passed, 0 failed.
-- `docker compose exec app php tests/test.php` -> 4 passed, 0 failed.
+- `docker compose run --rm app php tests/test.php` -> 6 passed, 0 failed.
+- `docker compose exec app php tests/test.php` -> 6 passed, 0 failed.
 - `docker compose run --rm app sh -c "find . -name '*.php' -print0 | xargs -0 -n1 php -l"` -> no syntax errors.
 - Browser QA: admin loads, scheduled document can be created, title search filters to the target document, share link is generated, future document is gated, schedule update unlocks the recipient view.
+- In-app Browser fill hit a local virtual-clipboard runtime issue, so rendered flow verification used Playwright fallback. The expected 403 for a future-scheduled recipient link was observed during the gated-view check.
 
 ## Video Outline
 
