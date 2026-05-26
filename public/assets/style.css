@@ -33,6 +33,8 @@ body {
     font-family: "Source Sans 3", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--text);
     background: var(--bg);
+    display: flex;
+    flex-direction: column;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
 }
@@ -108,9 +110,11 @@ a:hover { color: var(--accent-hover); }
 }
 
 .container {
+    flex: 1;
     max-width: 960px;
     margin: 2.5rem auto;
     padding: 0 1.5rem;
+    width: 100%;
 }
 
 .container-narrow {
@@ -155,6 +159,27 @@ a:hover { color: var(--accent-hover); }
     font-weight: 600;
     margin: 0 0 1rem;
     color: var(--text);
+}
+
+.body-copy {
+    color: var(--slate);
+    margin: 0 0 1rem;
+    max-width: 68ch;
+}
+
+.body-copy:last-child {
+    margin-bottom: 0;
+}
+
+.feature-list {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.feature-list li {
+    color: var(--slate);
 }
 
 .form-field {
@@ -475,8 +500,45 @@ table.data td.id {
     font-size: 0.95rem;
 }
 
+.site-footer {
+    background: var(--navy);
+    color: rgba(255, 255, 255, 0.78);
+    margin-top: 2.5rem;
+    padding: 1.1rem 1.5rem;
+}
+
+.footer-inner {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 960px;
+}
+
+.footer-inner strong {
+    color: #ffffff;
+    margin-right: 0.35rem;
+}
+
+.footer-links {
+    display: inline-flex;
+    gap: 1rem;
+}
+
+.footer-links a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 720px) {
     .nav-inner,
+    .footer-inner,
     .page-actions,
     .search-form {
         align-items: stretch;
