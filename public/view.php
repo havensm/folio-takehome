@@ -5,7 +5,6 @@ require __DIR__ . '/../lib/documents.php';
 require __DIR__ . '/../lib/layout.php';
 
 $token = trim($_GET['token'] ?? '');
-$readableId = trim($_GET['id'] ?? '');
 
 $stmt = db()->prepare('
     SELECT d.*, s.recipient_email
@@ -16,7 +15,7 @@ $stmt = db()->prepare('
 $stmt->execute([$token]);
 $doc = $stmt->fetch();
 
-if (!$doc || !document_identifier_matches($doc, $readableId)) {
+if (!$doc) {
     http_response_code(404);
     render_header('Not found');
     ?>
