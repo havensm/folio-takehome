@@ -16,7 +16,7 @@ $stmt = db()->prepare('
 $stmt->execute([$token]);
 $doc = $stmt->fetch();
 
-if (!$doc || ($readableId !== '' && strcasecmp((string) $doc['readable_id'], $readableId) !== 0)) {
+if (!$doc || !document_identifier_matches($doc, $readableId)) {
     http_response_code(404);
     render_header('Not found');
     ?>
@@ -46,7 +46,7 @@ render_header($doc['title']);
 ?>
 
 <h1 class="page-title"><?= h($doc['title']) ?></h1>
-<p class="meta">Document <?= h($doc['readable_id'] ?? ('#' . $doc['id'])) ?> · shared with <?= h($doc['recipient_email']) ?></p>
+<p class="meta">Document <?= h(document_public_identifier($doc)) ?> · shared with <?= h($doc['recipient_email']) ?></p>
 
 <pre class="doc-body"><?= h($doc['body']) ?></pre>
 

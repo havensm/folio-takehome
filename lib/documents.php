@@ -129,6 +129,21 @@ function document_by_identifier(string $identifier): ?array {
     return $document ?: null;
 }
 
+function document_public_identifier(array $document): string {
+    $readableId = trim((string) ($document['readable_id'] ?? ''));
+
+    return $readableId !== '' ? $readableId : (string) $document['id'];
+}
+
+function document_identifier_matches(array $document, string $identifier): bool {
+    $identifier = trim($identifier);
+    if ($identifier === '') {
+        return true;
+    }
+
+    return strcasecmp(document_public_identifier($document), $identifier) === 0;
+}
+
 function search_documents(?string $query = null): array {
     $query = trim((string) $query);
     if ($query === '') {
