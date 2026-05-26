@@ -90,7 +90,7 @@ a:hover { color: var(--accent-hover); }
 }
 
 .container {
-    max-width: 720px;
+    max-width: 960px;
     margin: 2.5rem auto;
     padding: 0 1.5rem;
 }
@@ -303,10 +303,19 @@ a:hover { color: var(--accent-hover); }
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
 table.data {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.92rem;
+}
+
+table.documents-table {
+    min-width: 820px;
 }
 
 table.data th {
@@ -335,6 +344,18 @@ table.data td.id {
     font-variant-numeric: tabular-nums;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 0.85rem;
+}
+
+.actions-heading,
+.actions-cell {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.action-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
 }
 
 .meta {
