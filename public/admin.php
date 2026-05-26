@@ -156,7 +156,10 @@ render_header('Admin', $staff);
                         <td><?= h($d['creator_name']) ?></td>
                         <td><?= h($d['created_at']) ?></td>
                         <td class="actions-cell">
-                            <a href="/share.php?doc=<?= urlencode($d['readable_id'] ?? (string) $d['id']) ?>" class="btn-link action-link">Create share</a>
+                            <div class="action-group">
+                                <a href="/document.php?doc=<?= urlencode($d['readable_id'] ?? (string) $d['id']) ?>" class="btn-link action-link">Review</a>
+                                <a href="/share.php?doc=<?= urlencode($d['readable_id'] ?? (string) $d['id']) ?>" class="btn-link action-link">Create share</a>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach ?>

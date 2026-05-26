@@ -123,5 +123,13 @@ test('invalid schedule dates are rejected instead of normalized', function () {
     throw new RuntimeException('expected invalid date to be rejected');
 });
 
+test('documents can be resolved by readable id for staff review', function () {
+    $docId = create_document('Reviewable Document', 'Review body', 1, storage_datetime(app_now()));
+    $doc = document_by_identifier((string) $docId);
+    $reviewDoc = document_by_identifier($doc['readable_id']);
+
+    assert_same('Reviewable Document', $reviewDoc['title'], 'expected review lookup to find the document');
+});
+
 echo "\n{$pass} passed, {$fail} failed.\n";
 exit($fail > 0 ? 1 : 0);
