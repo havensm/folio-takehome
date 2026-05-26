@@ -135,15 +135,6 @@ function document_public_identifier(array $document): string {
     return $readableId !== '' ? $readableId : (string) $document['id'];
 }
 
-function document_identifier_matches(array $document, string $identifier): bool {
-    $identifier = trim($identifier);
-    if ($identifier === '') {
-        return true;
-    }
-
-    return strcasecmp(document_public_identifier($document), $identifier) === 0;
-}
-
 function search_documents(?string $query = null): array {
     $query = trim((string) $query);
     if ($query === '') {

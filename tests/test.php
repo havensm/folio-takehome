@@ -74,7 +74,6 @@ test('document public identifiers fall back to numeric ids when readable ids are
 
     assert_true($doc !== null, 'expected legacy document to exist');
     assert_same((string) $docId, document_public_identifier($doc), 'expected numeric id fallback');
-    assert_true(document_identifier_matches($doc, (string) $docId), 'expected numeric id fallback to match');
 });
 
 test('scheduled documents are hidden until their publish time', function () {
