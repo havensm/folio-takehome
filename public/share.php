@@ -36,7 +36,7 @@ render_header('Share · ' . $doc['title'], $staff);
 <a href="/admin.php" class="back-link">← back to admin</a>
 
 <h1 class="page-title">Share "<?= h($doc['title']) ?>"</h1>
-<p class="page-subtitle">Document <?= h($doc['readable_id'] ?? ('#' . $doc['id'])) ?> · generate a one-time link for a recipient.</p>
+<p class="page-subtitle">Document <?= h($doc['readable_id'] ?? ('#' . $doc['id'])) ?> · generate a private share link for a recipient.</p>
 
 <?php if ($error): ?>
     <div class="banner banner-error"><?= h($error) ?></div>
