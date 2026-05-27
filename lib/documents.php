@@ -136,6 +136,21 @@ function document_public_identifier(array $document): string {
     return $readableId !== '' ? $readableId : (string) $document['id'];
 }
 
+function document_identifier_matches(array $document, string $identifier): bool {
+    $identifier = trim($identifier);
+    if ($identifier === '') {
+        return false;
+    }
+
+    if (ctype_digit($identifier)) {
+        return (int) $identifier === (int) $document['id'];
+    }
+
+    $readableId = trim((string) ($document['readable_id'] ?? ''));
+
+    return $readableId !== '' && strcasecmp($readableId, $identifier) === 0;
+}
+
 function document_review_token_valid(array $document, ?string $token): bool {
     $expected = trim((string) ($document['staff_review_token'] ?? ''));
     $token = trim((string) $token);
