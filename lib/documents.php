@@ -103,11 +103,12 @@ function generate_readable_id(string $title): string {
 
 function create_document(string $title, string $body, int $staffId, string $publishedAt): int {
     $readableId = generate_readable_id($title);
+    $staffReviewToken = random_token();
     $stmt = db()->prepare('
-        INSERT INTO documents (title, body, created_by, published_at, readable_id)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO documents (title, body, created_by, published_at, readable_id, staff_review_token)
+        VALUES (?, ?, ?, ?, ?, ?)
     ');
-    $stmt->execute([$title, $body, $staffId, $publishedAt, $readableId]);
+    $stmt->execute([$title, $body, $staffId, $publishedAt, $readableId, $staffReviewToken]);
     return (int) db()->lastInsertId();
 }
 
@@ -127,6 +128,13 @@ function document_by_identifier(string $identifier): ?array {
     $document = $stmt->fetch();
 
     return $document ?: null;
+}
+
+function document_review_token_valid(array $document, ?string $token): bool {
+    $expected = trim((string) ($document['staff_review_token'] ?? ''));
+    $token = trim((string) $token);
+
+    return $expected !== '' && hash_equals($expected, $token);
 }
 
 function search_documents(?string $query = null): array {
