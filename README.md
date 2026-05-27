@@ -1,106 +1,124 @@
-# Folio Take-Home
+# Folio
 
-A small document-sharing app. You'll be extending it with features that customers have been asking for.
+Folio is a small internal document-sharing app. Staff can create documents, schedule when recipients can see them, search for documents by title, and generate private recipient share links.
 
-## Submission notes
+The app is intentionally lightweight: PHP pages, SQLite storage, and Docker Compose for a repeatable local environment.
 
-This branch implements all three requested features:
+## Features
 
-- Scheduled publishing: staff can set when a document becomes available, and recipient links show a not-yet-available message before that time.
-- Human-readable document IDs: documents get short readable IDs for staff/admin context and share URLs, while private share tokens still control recipient access.
-- Share by name: staff can search document titles before creating a share link.
+- Create staff-authored documents from the admin screen.
+- Publish documents immediately or schedule them for a later date and time.
+- Generate short, readable document IDs for staff context and share URLs.
+- Keep recipient access private with opaque share tokens.
+- Search document titles before creating a share link.
+- Gate recipient views until the scheduled publish time.
+- Log document creation, schedule changes, and share creation in `audit_log`.
 
-Schema changes are in `migrations/`, shared document behavior lives in `lib/documents.php`, and feature coverage is in `tests/test.php`.
+## Tech Stack
 
-For AI-process transparency, see `ASSIGNMENT_PLAN.md` for the plan, prompt/process log, verification log, and walkthrough outline. See `AGENTS.md` for the lightweight repo-specific agent conventions used during the work.
-
-## Setup
-
-Requires Docker (with Compose). That's it — PHP, SQLite, and everything else ship inside the container.
-
-```
-docker compose up
-```
-
-Open http://localhost:8000. The first run builds the image (~30 seconds); subsequent runs start instantly.
-
-Each `docker compose up` re-seeds `db.sqlite` from scratch, so you always start with a known state. Stop with `Ctrl+C`.
-
-To run the tests:
-
-```
-docker compose exec app php tests/test.php
-```
-
-You edit files on your host machine in your normal editor — the container has them mounted, so changes show up immediately on browser refresh.
-
-## Background
-
-Folio is a small tool that lets staff create documents and share them with recipients via one-time links. This repo contains a staff admin page, document creation, share-link generation, and a recipient view. The schema (`schema.sql`) and helpers (`lib/bootstrap.php`) are meant to feel representative of a real internal tool.
-
-Take some time to read the code before you start building.
-
-## Agent setup
-
-How you configure this repo for AI-assisted work is part of the exercise. That can include context files, permissions, hooks, custom commands, conventions to follow, orchestration (subagents, parallel tasks, custom skills or commands) — whatever fits how you work.
-
-We're not prescribing specifics. Commit what you'd commit on a real project. If you decide setup isn't worth it for a three-hour exercise, say so in your video and explain why.
-
-## Your Task
-
-Customers have asked for three things. Pick an order, scope as you see fit, and build as much as you can in the time you have.
-
-### 1. Scheduled publishing
-
-Staff should be able to prepare a document in advance and have it become visible to recipients at a specific date and time. Before that time, someone hitting the share link should see a "not yet available" message instead of the document.
-
-### 2. Human-readable document IDs
-
-Today documents are identified by auto-increment integers (`#1`, `#2`) and share links use opaque hex tokens. Customers want each document to have a **short, readable ID** — something a person could say out loud, type into a URL, or paste into an email. Examples of the shape (not prescriptive): `welcome-2026`, `onboarding-packet-3k`, `FOLIO-7QX4`.
-
-The exact format, length, and URL structure are your call. Think about collisions, guessability, and how this interacts with the existing share-token mechanism.
-
-### 3. Share by name
-
-Staff should be able to find a document to share by searching for it by title, not just by scrolling a list. Decide what "search" means here — exact match, prefix, fuzzy, something else — and justify your choice.
-
-## What we're intentionally not specifying
-
-- Whether readable IDs **replace** the existing share-token mechanism or **complement** it (there are real tradeoffs either way — privacy, guessability, link permanence)
-- The URL structure for viewing a document
-- How you structure and run schema migrations (see below)
-- How the three features interact with each other
-
-Make these calls yourself and explain your reasoning in your video. We care about your judgment as much as your code.
+- PHP with the built-in development server
+- SQLite
+- Docker and Docker Compose
+- Plain server-rendered HTML/CSS
 
 ## Requirements
 
-- **Schema changes go through a migration file (or files) you add to the repo**, not by editing `schema.sql` directly. There is no migration system yet — you decide how to organize one. Explain your approach in your video.
-- At least one test covers each feature you build (see `tests/test.php` for the existing pattern).
-- Document creation, scheduling changes, and share actions should be logged to `audit_log` (pattern is in `lib/bootstrap.php`).
-- The `docker compose up` flow should still work from a fresh clone for anyone reviewing your branch.
+- Docker Desktop or another Docker environment with Compose support
 
-## Deliverables
+No local PHP or SQLite installation is required.
 
-1. A branch with your changes and a commit log that tells the story of your work
-2. A short video (~5 min) walking us through your approach, covering:
-   - What you built and what you scoped out
-   - The design decisions you made and the alternatives you rejected
-   - Anything in the existing code you noticed worth flagging
-   - What you'd do with more time
-   - **Your AI workflow**: what you leaned on AI for, what you did yourself, a moment you pushed back on a suggestion, and anything you noticed about where AI helped or hurt
-3. *(Optional)* Share chat transcripts or links if it's easy — a thoughtful minute in the video is worth more than an unedited log.
+## Quick Start
 
-## Time
+Start the app:
 
-Budget ~3 hours. You probably won't finish all three features — **that's expected**. Prioritize, ship what you can finish well, and explain what you skipped and why. Partial + thoughtful beats rushed + complete.
+```sh
+docker compose up
+```
 
-## What we're looking for
+Open the staff admin:
 
-- How you handle ambiguity (the spec is intentionally fuzzy)
-- How you gather context before writing code
-- How you set up and work with AI tools — including when you push back on their suggestions
-- How you verify your own work
-- How you communicate tradeoffs and anything surprising you found
+```text
+http://localhost:8000/admin.php
+```
 
-Finished-but-sloppy loses to unfinished-but-thoughtful.
+The first run builds the image. Each `docker compose up` run recreates `db.sqlite` from the schema, migrations, and seed data so the local app starts from a known state.
+
+Stop the app with `Ctrl+C`.
+
+## Seed Data
+
+`seed.php` creates one staff user and one sample document/share link. The Docker Compose startup output includes the sample recipient link.
+
+The seeded staff user is:
+
+```text
+Freddy Folio <freddy@folio.example>
+```
+
+## Running Tests
+
+With the app container already running:
+
+```sh
+docker compose exec app php tests/test.php
+```
+
+Or run the tests in a one-off container:
+
+```sh
+docker compose run --rm app php tests/test.php
+```
+
+Optional PHP syntax check:
+
+```sh
+docker compose run --rm app sh -c "find . -name '*.php' -print0 | xargs -0 -n1 php -l"
+```
+
+## App Workflow
+
+1. Open `/admin.php`.
+2. Create a document with a title, body, and optional publish time.
+3. Use the document table to search by title, update availability, review the document, or create a share link.
+4. Send the generated `/view.php?id=...&token=...` link to the recipient.
+5. Recipients see a not-yet-available message until the document reaches its publish time.
+
+Readable document IDs are human-facing labels, not access control. Recipient links still require the private share token.
+
+## Project Layout
+
+```text
+public/              Web entry points and assets
+lib/                 Bootstrap, layout, document helpers, migrations
+migrations/          Numbered SQL migrations applied during seeding
+tests/test.php       Lightweight feature test runner
+schema.sql           Baseline schema
+seed.php             Local database reset and seed script
+docker-compose.yml   Local app runtime
+```
+
+## Assignment Notes
+
+The original take-home assignment README has been moved to `ASSIGNMENT_NOTES.md`.
+
+Implementation planning, verification notes, and AI-process notes are in `ASSIGNMENT_PLAN.md`.
+
+Repo-specific agent conventions are in `AGENTS.md`.
+
+## Get Started With Codex
+
+Copy and paste this prompt into a local Codex instance to clone the project, start it locally, and verify the setup:
+
+```text
+Clone and run the Folio app locally from https://github.com/havensm/folio-takehome.
+
+Please:
+1. Clone the repo into a local workspace if it is not already present.
+2. Read README.md, AGENTS.md, ASSIGNMENT_NOTES.md, and ASSIGNMENT_PLAN.md for project context.
+3. Verify Docker Compose is available.
+4. Start the app with docker compose up. Use another local port only if 8000 is already busy.
+5. Run docker compose run --rm app php tests/test.php.
+6. Report the local app URL, the seeded sample share URL from startup output, the test result, and any setup issues.
+
+Keep setup or code changes on a new branch, and do not modify files unless I ask.
+```
