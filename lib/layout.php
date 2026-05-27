@@ -14,8 +14,11 @@ function render_header(string $title, ?array $staff = null): void {
 <nav class="nav">
     <div class="nav-inner">
         <a href="/admin.php" class="brand">
-            <span class="brand-mark">F</span>
-            Folio
+            <span class="brand-mark">CP</span>
+            <span>
+                <span class="brand-name">Folio</span>
+                <span class="brand-subtitle">CivicPlus</span>
+            </span>
         </a>
         <?php if ($staff): ?>
             <span class="nav-user"><strong><?= h($staff['name']) ?></strong> · <?= h($staff['email']) ?></span>
