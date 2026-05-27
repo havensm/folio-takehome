@@ -1,9 +1,10 @@
 <?php
 
 require __DIR__ . '/../lib/bootstrap.php';
+require __DIR__ . '/../lib/documents.php';
 require __DIR__ . '/../lib/layout.php';
 
-$token = $_GET['token'] ?? '';
+$token = trim($_GET['token'] ?? '');
 
 $stmt = db()->prepare('
     SELECT d.*, s.recipient_email
@@ -27,11 +28,24 @@ if (!$doc) {
     exit;
 }
 
+if (!document_is_published($doc)) {
+    http_response_code(403);
+    render_header('Not yet available');
+    ?>
+    <div class="centered-message">
+        <h1>Document not yet available</h1>
+        <p>This document will be available after <?= h(format_display_datetime($doc['published_at'])) ?>.</p>
+    </div>
+    <?php
+    render_footer();
+    exit;
+}
+
 render_header($doc['title']);
 ?>
 
 <h1 class="page-title"><?= h($doc['title']) ?></h1>
-<p class="meta">Shared with <?= h($doc['recipient_email']) ?></p>
+<p class="meta">Document <?= h(document_public_identifier($doc)) ?> · shared with <?= h($doc['recipient_email']) ?></p>
 
 <pre class="doc-body"><?= h($doc['body']) ?></pre>
 
